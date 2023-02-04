@@ -50,7 +50,7 @@ class UserServiceTest {
         expected.setAddress(address);
         final User user = expected;
 
-        final User resultUser = userService.user(1L);
+        final User resultUser = userService.queryUser(1L);
 
         assertEquals(user, resultUser);
     }
@@ -59,7 +59,7 @@ class UserServiceTest {
     public void user_not_found() throws UserNotFoundException, SQLException {
         try {
             @SuppressWarnings("unused")
-            final User resultUser = userService.user(1234L);
+            final User resultUser = userService.queryUser(1234L);
             fail();
         } catch (final UserNotFoundException e) {
             assertEquals(1234L, e.getUserId());

@@ -38,7 +38,7 @@ public class UserService {
      * @throws UserNotFoundException if no data is found for the given ID
      * @throws SQLException if there was a problem querying the database
      */
-	public User user(final Long userId) throws UserNotFoundException, SQLException {
+	public User queryUser(final Long userId) throws UserNotFoundException, SQLException {
 	    try (final Connection connection = dataSource.getConnection();
 	            final PreparedStatement userQuery = connection.prepareStatement("select firstName, lastName, username, password, addressId from User where id = ?");
 	            final PreparedStatement addressQuery = connection.prepareStatement("select address1, address2, city, state, postal from Address where id = ?");) {

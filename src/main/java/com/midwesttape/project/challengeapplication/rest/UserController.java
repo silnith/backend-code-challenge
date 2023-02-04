@@ -38,7 +38,7 @@ public class UserController {
      */
 	@GetMapping("/v1/users/{userId}")
     public User user(@PathVariable final Long userId) throws UserNotFoundException, SQLException {
-        return userService.user(userId);
+        return userService.queryUser(userId);
     }
 
 }
