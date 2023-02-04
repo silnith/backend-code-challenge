@@ -47,6 +47,16 @@ public class UserController {
         return userService.queryUser(userId);
     }
 	
+	/**
+	 * Allows clients to {@code PUT} a user into the system.  This will create
+	 * or update the user as appropriate, depending on if a user with the given
+	 * ID already exists or not.
+	 * 
+	 * @param user the user to record
+	 * @param builder a helper for constructing the location header
+	 * @return nothing, just an HTTP status code
+	 * @throws SQLException if there was a problem connecting to the database
+	 */
 	@PutMapping
 	public ResponseEntity<String> createOrUpdateUser(@RequestBody final User user, final UriComponentsBuilder builder) throws SQLException {
 	    final boolean created = userService.setUser(user);
