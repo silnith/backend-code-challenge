@@ -3,10 +3,18 @@ package com.midwesttape.project.challengeapplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * The primary runnable for the REST service.
+ */
 @SpringBootApplication
 public class ChallengeApplication {
 
-    public static void main(String[] args) {
+    /**
+     * The main application entry point.
+     * 
+     * @param args command-line arguments
+     */
+    public static void main(final String[] args) {
         SpringApplication.run(ChallengeApplication.class, args);
     }
 

@@ -6,16 +6,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * ReST controller for the {@code  /v1/users} endpoint.
+ */
 @RestController
 public class UserController {
 
     private final UserService userService;
 
+    /**
+     * Constructs a new controller.
+     * 
+     * @param userService the user service
+     */
     public UserController(final UserService userService) {
 		super();
 		this.userService = userService;
 	}
 
+    /**
+     * Returns the details for a given user.
+     * 
+     * @param userId the user ID to look up
+     * @return the user details
+     */
 	@GetMapping("/v1/users/{userId}")
     public User user(@PathVariable final Long userId) {
         return userService.user(userId);
