@@ -11,7 +11,34 @@
     <artifactId>ChallengeApplication</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ChallengeApplication</name>
-    <description>ChallengeApplication</description>
+    <description>A coding challenge for back-end developer applicants.</description>
+    <url>https://github.com/midwest-tape/backend-code-challenge</url>
+    <organization>
+        <name>Midwest Tape</name>
+        <url>https://www.midwesttape.com/</url>
+    </organization>
+    <licenses></licenses>
+    <developers></developers>
+    <contributors>
+        <contributor>
+            <name>Kent Rosenkoetter</name>
+            <email>silnith@gmail.com</email>
+            <url>https://github.com/silnith</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>America/Chicago</timezone>
+        </contributor>
+    </contributors>
+    <scm>
+        <connection>scm:git:https://github.com/midwest-tape/backend-code-challenge.git</connection>
+        <tag>HEAD</tag>
+        <url>https://github.com/midwest-tape/backend-code-challenge</url>
+        <developerConnection>scm:git:ssh://git@github.com:midwest-tape/backend-code-challenge.git</developerConnection>
+    </scm>
+    <issueManagement></issueManagement>
+    <ciManagement></ciManagement>
+    <distributionManagement></distributionManagement>
     <properties>
         <java.version>11</java.version>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
