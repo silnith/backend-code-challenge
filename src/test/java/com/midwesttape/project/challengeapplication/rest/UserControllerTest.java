@@ -30,7 +30,13 @@ class UserControllerTest {
         final URI uri = new URI("http", null, "localhost", port, "/v1/users/1", null, null);
         final User response = restTemplate.getForObject(uri, User.class);
         
-        assertNotNull(response);
+        final User expected = new User();
+        expected.setId(1L);
+        expected.setFirstName("Phil");
+        expected.setLastName("Ingwell");
+        expected.setUsername("PhilIngwell");
+        expected.setPassword("Password123");
+        assertEquals(expected, response);
     }
     
     @Test
@@ -38,7 +44,13 @@ class UserControllerTest {
         final URI uri = new URI("http", null, "localhost", port, "/v1/users/2", null, null);
         final User response = restTemplate.getForObject(uri, User.class);
         
-        assertNotNull(response);
+        final User expected = new User();
+        expected.setId(2L);
+        expected.setFirstName("Anna");
+        expected.setLastName("Conda");
+        expected.setUsername("AnnaConda");
+        expected.setPassword("Password234");
+        assertEquals(expected, response);
     }
     
     @Test
