@@ -1,59 +1,68 @@
 package com.midwesttape.project.challengeapplication.service;
 
-import com.midwesttape.project.challengeapplication.model.User;
-import com.midwesttape.project.challengeapplication.model.UserNotFoundException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import com.midwesttape.project.challengeapplication.model.Address;
+import com.midwesttape.project.challengeapplication.model.User;
+import com.midwesttape.project.challengeapplication.model.UserNotFoundException;
 
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
-    private static final Long USER_ID = 1234L;
-
-    @Mock
-    private JdbcTemplate template;
+    @Autowired
+    private DataSource dataSource;
 
     private UserService userService;
 
     @BeforeEach
     public void beforeEach() {
-        userService = new UserService(template);
+        userService = new UserService(dataSource);
     }
 
     @Test
-    public void should_get_user() throws UserNotFoundException {
-        final User user = new User();
+    public void should_get_user() throws UserNotFoundException, SQLException {
+        final Address address = new Address();
+        address.setId(1L);
+        address.setAddress1("1600 Pennsylvania Ave.");
+        address.setAddress2("c/o Fools");
+        address.setCity("Washington");
+        address.setState("District of Columbia");
+        address.setPostal("20500");
+        final User expected = new User();
+        expected.setId(1L);
+        expected.setFirstName("Phil");
+        expected.setLastName("Ingwell");
+        expected.setUsername("PhilIngwell");
+        expected.setPassword("Password123");
+        expected.setAddress(address);
+        final User user = expected;
 
-        when(template.queryForObject(anyString(), isA(BeanPropertyRowMapper.class), eq(USER_ID))).thenReturn(user);
-
-        final User resultUser = userService.user(USER_ID);
+        final User resultUser = userService.user(1L);
 
         assertEquals(user, resultUser);
     }
 
     @Test
-    public void user_not_found() throws UserNotFoundException {
-        final User user = new User();
-
-        when(template.queryForObject(anyString(), isA(BeanPropertyRowMapper.class), eq(USER_ID))).thenThrow(new EmptyResultDataAccessException(1));
-
+    public void user_not_found() throws UserNotFoundException, SQLException {
         try {
-            final User resultUser = userService.user(USER_ID);
+            @SuppressWarnings("unused")
+            final User resultUser = userService.user(1234L);
             fail();
         } catch (final UserNotFoundException e) {
-            assertEquals(USER_ID, e.getUserId());
+            assertEquals(1234L, e.getUserId());
         }
     }
 

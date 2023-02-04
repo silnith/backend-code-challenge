@@ -14,6 +14,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.midwesttape.project.challengeapplication.model.Address;
 import com.midwesttape.project.challengeapplication.model.User;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -30,12 +31,20 @@ class UserControllerTest {
         final URI uri = new URI("http", null, "localhost", port, "/v1/users/1", null, null);
         final User response = restTemplate.getForObject(uri, User.class);
         
+        final Address address = new Address();
+        address.setId(1L);
+        address.setAddress1("1600 Pennsylvania Ave.");
+        address.setAddress2("c/o Fools");
+        address.setCity("Washington");
+        address.setState("District of Columbia");
+        address.setPostal("20500");
         final User expected = new User();
         expected.setId(1L);
         expected.setFirstName("Phil");
         expected.setLastName("Ingwell");
         expected.setUsername("PhilIngwell");
         expected.setPassword("Password123");
+        expected.setAddress(address);
         assertEquals(expected, response);
     }
     
@@ -43,13 +52,21 @@ class UserControllerTest {
     void user2() throws URISyntaxException {
         final URI uri = new URI("http", null, "localhost", port, "/v1/users/2", null, null);
         final User response = restTemplate.getForObject(uri, User.class);
-        
+
+        final Address address = new Address();
+        address.setId(2L);
+        address.setAddress1("1590 Pennsylvania Ave.");
+        address.setAddress2("Apt. 42");
+        address.setCity("Washington");
+        address.setState("District of Columbia");
+        address.setPostal("20500");
         final User expected = new User();
         expected.setId(2L);
         expected.setFirstName("Anna");
         expected.setLastName("Conda");
         expected.setUsername("AnnaConda");
         expected.setPassword("Password234");
+        expected.setAddress(address);
         assertEquals(expected, response);
     }
     

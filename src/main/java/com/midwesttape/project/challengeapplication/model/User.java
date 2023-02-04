@@ -14,6 +14,7 @@ public class User {
     private String lastName;
     private String username;
     private String password;
+    private Address address;
 
     public User() {
         super();
@@ -117,9 +118,27 @@ public class User {
         this.password = password;
     }
 
+    /**
+     * Returns the address of the user.  May be null.
+     * 
+     * @return the address
+     */
+    public Address getAddress() {
+        return address;
+    }
+
+    /**
+     * Sets the address of the user.  May be null.
+     * 
+     * @param address the address to set
+     */
+    public void setAddress(final Address address) {
+        this.address = address;
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, id, lastName, password, username);
+        return Objects.hash(address, firstName, id, lastName, password, username);
     }
 
     @Override
@@ -131,14 +150,15 @@ public class User {
             return false;
         }
         final User other = (User) obj;
-        return Objects.equals(firstName, other.firstName) && Objects.equals(id, other.id)
-                && Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
-                && Objects.equals(username, other.username);
+        return Objects.equals(address, other.address) && Objects.equals(firstName, other.firstName)
+                && Objects.equals(id, other.id) && Objects.equals(lastName, other.lastName)
+                && Objects.equals(password, other.password) && Objects.equals(username, other.username);
     }
 
     @Override
     public String toString() {
         return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username
-                + ", password=" + password + "]";
+                + ", password=" + password + ", address=" + address + "]";
     }
+
 }
