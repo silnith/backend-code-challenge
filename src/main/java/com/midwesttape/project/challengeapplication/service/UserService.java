@@ -1,6 +1,8 @@
 package com.midwesttape.project.challengeapplication.service;
 
 import com.midwesttape.project.challengeapplication.model.User;
+import com.midwesttape.project.challengeapplication.model.UserNotFoundException;
+
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,13 +27,14 @@ public class UserService {
 	}
 
     /**
-     * Returns a user's information.  Will return null
+     * Returns a user's information.  Will throw {@link UserNotFoundException}
      * if no data is available for the given ID.
      * 
      * @param userId the user ID
      * @return the user details
+     * @throws UserNotFoundException if no data is found for the given ID
      */
-	public User user(final Long userId) {
+	public User user(final Long userId) throws UserNotFoundException {
         try {
 
             return template.queryForObject(
@@ -47,7 +50,7 @@ public class UserService {
                 userId
             );
         } catch (final EmptyResultDataAccessException e) {
-            return null;
+            throw new UserNotFoundException(userId);
         }
 
     }

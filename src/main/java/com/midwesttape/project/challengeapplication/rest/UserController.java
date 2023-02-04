@@ -1,6 +1,7 @@
 package com.midwesttape.project.challengeapplication.rest;
 
 import com.midwesttape.project.challengeapplication.model.User;
+import com.midwesttape.project.challengeapplication.model.UserNotFoundException;
 import com.midwesttape.project.challengeapplication.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,9 +30,10 @@ public class UserController {
      * 
      * @param userId the user ID to look up
      * @return the user details
+     * @throws UserNotFoundException if no user can be found for the given ID
      */
 	@GetMapping("/v1/users/{userId}")
-    public User user(@PathVariable final Long userId) {
+    public User user(@PathVariable final Long userId) throws UserNotFoundException {
         return userService.user(userId);
     }
 
