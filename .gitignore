@@ -4,7 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+### Eclipse & STS ###
 .apt_generated
 .classpath
 .factorypath
@@ -12,6 +12,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
+/bin/
 
 ### IntelliJ IDEA ###
 .idea
