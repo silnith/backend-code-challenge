@@ -9,7 +9,6 @@ import java.util.Objects;
  */
 public class Address {
     
-    private long id;
     private String address1;
     private String address2;
     private String city;
@@ -21,24 +20,6 @@ public class Address {
      */
     public Address() {
         super();
-    }
-
-    /**
-     * Returns the unique identifier for the address.
-     * 
-     * @return the id
-     */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * Sets the unique identifier for the address.
-     * 
-     * @param id the id to set
-     */
-    public void setId(final long id) {
-        this.id = id;
     }
 
     /**
@@ -135,27 +116,27 @@ public class Address {
 
     @Override
     public int hashCode() {
-        return Objects.hash(address1, address2, city, id, postal, state);
+        return Objects.hash(address1, address2, city, postal, state);
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
         if (!(obj instanceof Address)) {
             return false;
         }
-        Address other = (Address) obj;
+        final Address other = (Address) obj;
         return Objects.equals(address1, other.address1) && Objects.equals(address2, other.address2)
-                && Objects.equals(city, other.city) && id == other.id && Objects.equals(postal, other.postal)
+                && Objects.equals(city, other.city) && Objects.equals(postal, other.postal)
                 && Objects.equals(state, other.state);
     }
 
     @Override
     public String toString() {
-        return "Address [id=" + id + ", address1=" + address1 + ", address2=" + address2 + ", city=" + city + ", state="
-                + state + ", postal=" + postal + "]";
+        return "Address [address1=" + address1 + ", address2=" + address2 + ", city=" + city + ", state=" + state
+                + ", postal=" + postal + "]";
     }
 
 }

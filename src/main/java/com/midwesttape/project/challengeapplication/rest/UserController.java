@@ -1,19 +1,25 @@
 package com.midwesttape.project.challengeapplication.rest;
 
+import java.sql.SQLException;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import com.midwesttape.project.challengeapplication.model.User;
 import com.midwesttape.project.challengeapplication.model.UserNotFoundException;
 import com.midwesttape.project.challengeapplication.service.UserService;
 
-import java.sql.SQLException;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
 /**
- * ReST controller for the {@code  /v1/users} endpoint.
+ * ReST controller for the {@code /v1/users} endpoint.
  */
 @RestController
+@RequestMapping("/v1/users")
 public class UserController {
 
     private final UserService userService;
@@ -36,9 +42,20 @@ public class UserController {
      * @throws UserNotFoundException if no user can be found for the given ID
      * @throws SQLException if there was a problem connecting to the database
      */
-	@GetMapping("/v1/users/{userId}")
-    public User user(@PathVariable final Long userId) throws UserNotFoundException, SQLException {
+	@GetMapping("{userId}")
+    public User getUser(@PathVariable final Long userId) throws UserNotFoundException, SQLException {
         return userService.queryUser(userId);
     }
+	
+	@PutMapping
+	public ResponseEntity<String> createOrUpdateUser(@RequestBody final User user, final UriComponentsBuilder builder) throws SQLException {
+	    final boolean created = userService.setUser(user);
+	    if (created) {
+	        builder.pathSegment("v1", "users", "{userId}");
+	        return ResponseEntity.created(builder.build(user.getId())).build();
+	    } else {
+	        return ResponseEntity.noContent().build();
+	    }
+	}
 
 }

@@ -35,7 +35,6 @@ class UserServiceTest {
     @Test
     public void should_get_user() throws UserNotFoundException, SQLException {
         final Address address = new Address();
-        address.setId(1L);
         address.setAddress1("1600 Pennsylvania Ave.");
         address.setAddress2("c/o Fools");
         address.setCity("Washington");
