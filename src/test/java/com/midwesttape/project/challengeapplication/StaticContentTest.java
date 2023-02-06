@@ -16,7 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class RootControllerTest {
+class StaticContentTest {
     
     @Value("${local.server.port}")
     int port;
