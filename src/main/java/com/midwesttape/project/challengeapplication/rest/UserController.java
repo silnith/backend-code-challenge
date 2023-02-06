@@ -20,7 +20,7 @@ import com.midwesttape.project.challengeapplication.model.UserNotFoundException;
 import com.midwesttape.project.challengeapplication.service.UserService;
 
 /**
- * ReST controller for the {@code /v1/users} endpoint.
+ * REST controller for the {@code /v1/users} endpoint.
  */
 @RestController
 @RequestMapping("/v1/users")
