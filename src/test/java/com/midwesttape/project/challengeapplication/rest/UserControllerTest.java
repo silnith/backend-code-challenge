@@ -319,6 +319,8 @@ class UserControllerTest {
         
         assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 7", Integer.class));
     }
+    
+    // TODO: unit test for missing address2, which is a valid request
 
     @Test
     void createUserMissingCity() throws URISyntaxException {

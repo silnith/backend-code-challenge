@@ -5,12 +5,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.SQLException;
 
-import javax.sql.DataSource;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -19,18 +14,10 @@ import com.midwesttape.project.challengeapplication.model.User;
 import com.midwesttape.project.challengeapplication.model.UserNotFoundException;
 
 @SpringBootTest
-@ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
     @Autowired
-    private DataSource dataSource;
-
     private UserService userService;
-
-    @BeforeEach
-    public void beforeEach() {
-        userService = new UserService(dataSource);
-    }
 
     @Test
     public void should_get_user() throws UserNotFoundException, SQLException {
