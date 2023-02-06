@@ -2,6 +2,9 @@ package com.midwesttape.project.challengeapplication.model;
 
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 /**
  * The data model representing a single user.
  * 
@@ -16,6 +19,9 @@ public class User {
     private String password;
     private Address address;
 
+    /**
+     * Creates a new user.
+     */
     public User() {
         super();
     }
@@ -26,6 +32,7 @@ public class User {
      * 
      * @return the user ID
      */
+    @NotNull
     public Long getId() {
         return id;
     }
@@ -36,7 +43,7 @@ public class User {
      * @param id the user ID
      * @throws IllegalArgumentException if the ID is null
      */
-    public void setId(final Long id) {
+    public void setId(@NotNull final Long id) {
         this.id = id;
     }
 
@@ -45,6 +52,7 @@ public class User {
      * 
      * @return the user's first name
      */
+    @NotNull
     public String getFirstName() {
         return firstName;
     }
@@ -55,7 +63,7 @@ public class User {
      * @param firstName the user's first name
      * @throws IllegalArgumentException if the name is null
      */
-    public void setFirstName(final String firstName) {
+    public void setFirstName(@NotNull final String firstName) {
         this.firstName = firstName;
     }
 
@@ -64,6 +72,7 @@ public class User {
      * 
      * @return the user's last name
      */
+    @NotNull
     public String getLastName() {
         return lastName;
     }
@@ -74,7 +83,7 @@ public class User {
      * @param lastName the user's last name
      * @throws IllegalArgumentException if the name is null
      */
-    public void setLastName(final String lastName) {
+    public void setLastName(@NotNull final String lastName) {
         this.lastName = lastName;
     }
 
@@ -83,6 +92,7 @@ public class User {
      * 
      * @return the user's username
      */
+    @NotNull
     public String getUsername() {
         return username;
     }
@@ -93,7 +103,7 @@ public class User {
      * @param username the user's username
      * @throws IllegalArgumentException if the name is null
      */
-    public void setUsername(final String username) {
+    public void setUsername(@NotNull final String username) {
         this.username = username;
     }
 
@@ -103,6 +113,7 @@ public class User {
      * 
      * @return the user's password
      */
+    @NotNull
     public String getPassword() {
         return password;
     }
@@ -114,7 +125,7 @@ public class User {
      * @param password the user's password
      * @throws IllegalArgumentException if the password is null
      */
-    public void setPassword(final String password) {
+    public void setPassword(@NotNull final String password) {
         this.password = password;
     }
 
@@ -123,6 +134,7 @@ public class User {
      * 
      * @return the address
      */
+    @Valid
     public Address getAddress() {
         return address;
     }
@@ -132,7 +144,7 @@ public class User {
      * 
      * @param address the address to set
      */
-    public void setAddress(final Address address) {
+    public void setAddress(@Valid final Address address) {
         this.address = address;
     }
 

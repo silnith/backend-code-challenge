@@ -2,7 +2,11 @@ package com.midwesttape.project.challengeapplication.rest;
 
 import java.sql.SQLException;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,6 +24,7 @@ import com.midwesttape.project.challengeapplication.service.UserService;
  */
 @RestController
 @RequestMapping("/v1/users")
+@Validated
 public class UserController {
 
     private final UserService userService;
@@ -43,7 +48,9 @@ public class UserController {
      * @throws SQLException if there was a problem connecting to the database
      */
 	@GetMapping("{userId}")
-    public User getUser(@PathVariable final Long userId) throws UserNotFoundException, SQLException {
+	@NotNull
+	@Valid
+    public User getUser(@PathVariable @NotNull final Long userId) throws UserNotFoundException, SQLException {
         return userService.queryUser(userId);
     }
 	
@@ -58,7 +65,7 @@ public class UserController {
 	 * @throws SQLException if there was a problem connecting to the database
 	 */
 	@PutMapping
-	public ResponseEntity<String> createOrUpdateUser(@RequestBody final User user, final UriComponentsBuilder builder) throws SQLException {
+	public ResponseEntity<String> createOrUpdateUser(@RequestBody @NotNull @Valid final User user, final UriComponentsBuilder builder) throws SQLException {
 	    final boolean created = userService.setUser(user);
 	    if (created) {
 	        builder.pathSegment("v1", "users", "{userId}");

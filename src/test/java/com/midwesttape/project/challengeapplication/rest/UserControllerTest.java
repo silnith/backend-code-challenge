@@ -116,7 +116,7 @@ class UserControllerTest {
         assertEquals("District of Columbia", jdbcTemplate.queryForObject("select Address.state from Address inner join User on User.addressId = Address.id where User.id = 3", String.class));
         assertEquals("20500", jdbcTemplate.queryForObject("select Address.postal from Address inner join User on User.addressId = Address.id where User.id = 3", String.class));
     }
-    
+
     @Test
     @DirtiesContext
     void updateUser() throws URISyntaxException {
@@ -158,6 +158,235 @@ class UserControllerTest {
         assertEquals("Seattle", jdbcTemplate.queryForObject("select Address.city from Address inner join User on User.addressId = Address.id where User.id = 4", String.class));
         assertEquals("Washington", jdbcTemplate.queryForObject("select Address.state from Address inner join User on User.addressId = Address.id where User.id = 4", String.class));
         assertEquals("98101", jdbcTemplate.queryForObject("select Address.postal from Address inner join User on User.addressId = Address.id where User.id = 4", String.class));
+    }
+
+    @Test
+    void createUserMissingId() throws URISyntaxException {
+        final Address address = new Address();
+        address.setAddress1("1590 Pennsylvania Ave.");
+        address.setAddress2("Apt. 43");
+        address.setCity("Washington");
+        address.setState("District of Columbia");
+        address.setPostal("20500");
+        final User user = new User();
+        user.setId(null);
+        user.setFirstName("Alpha");
+        user.setLastName("Bravo");
+        user.setUsername("Charlie");
+        user.setPassword("Delta");
+        user.setAddress(address);
+        final URI uri = new URI("http", null, "localhost", port, "/v1/users", null, null);
+        final ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<User>(user), String.class);
+        
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where username = 'Charlie'", Integer.class));
+    }
+    
+    @Test
+    void createUserMissingFirstName() throws URISyntaxException {
+        final Address address = new Address();
+        address.setAddress1("1590 Pennsylvania Ave.");
+        address.setAddress2("Apt. 43");
+        address.setCity("Washington");
+        address.setState("District of Columbia");
+        address.setPostal("20500");
+        final User user = new User();
+        user.setId(5L);
+        user.setFirstName(null);
+        user.setLastName("Bravo");
+        user.setUsername("Charlie");
+        user.setPassword("Delta");
+        user.setAddress(address);
+        final URI uri = new URI("http", null, "localhost", port, "/v1/users", null, null);
+        final ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<User>(user), String.class);
+        
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 5", Integer.class));
+    }
+    
+    @Test
+    void createUserMissingLastName() throws URISyntaxException {
+        final Address address = new Address();
+        address.setAddress1("1590 Pennsylvania Ave.");
+        address.setAddress2("Apt. 43");
+        address.setCity("Washington");
+        address.setState("District of Columbia");
+        address.setPostal("20500");
+        final User user = new User();
+        user.setId(5L);
+        user.setFirstName("Alpha");
+        user.setLastName(null);
+        user.setUsername("Charlie");
+        user.setPassword("Delta");
+        user.setAddress(address);
+        final URI uri = new URI("http", null, "localhost", port, "/v1/users", null, null);
+        final ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<User>(user), String.class);
+        
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 5", Integer.class));
+    }
+    
+    @Test
+    void createUserMissingUsername() throws URISyntaxException {
+        final Address address = new Address();
+        address.setAddress1("1590 Pennsylvania Ave.");
+        address.setAddress2("Apt. 43");
+        address.setCity("Washington");
+        address.setState("District of Columbia");
+        address.setPostal("20500");
+        final User user = new User();
+        user.setId(5L);
+        user.setFirstName("Alpha");
+        user.setLastName("Bravo");
+        user.setUsername(null);
+        user.setPassword("Delta");
+        user.setAddress(address);
+        final URI uri = new URI("http", null, "localhost", port, "/v1/users", null, null);
+        final ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<User>(user), String.class);
+        
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 5", Integer.class));
+    }
+    
+    @Test
+    void createUserMissingPassword() throws URISyntaxException {
+        final Address address = new Address();
+        address.setAddress1("1590 Pennsylvania Ave.");
+        address.setAddress2("Apt. 43");
+        address.setCity("Washington");
+        address.setState("District of Columbia");
+        address.setPostal("20500");
+        final User user = new User();
+        user.setId(5L);
+        user.setFirstName("Alpha");
+        user.setLastName("Bravo");
+        user.setUsername("Charlie");
+        user.setPassword(null);
+        user.setAddress(address);
+        final URI uri = new URI("http", null, "localhost", port, "/v1/users", null, null);
+        final ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<User>(user), String.class);
+        
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 5", Integer.class));
+    }
+    
+    @Test
+    @DirtiesContext
+    void createUserMissingAddress() throws URISyntaxException {
+        final User user = new User();
+        user.setId(6L);
+        user.setFirstName("Echo");
+        user.setLastName("Foxtrot");
+        user.setUsername("Ghana");
+        user.setPassword("Hector");
+        user.setAddress(null);
+        final URI uri = new URI("http", null, "localhost", port, "/v1/users", null, null);
+        final ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<User>(user), String.class);
+        
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        
+        assertEquals("Echo", jdbcTemplate.queryForObject("select firstName from User where id = 6", String.class));
+        assertEquals("Foxtrot", jdbcTemplate.queryForObject("select lastName from User where id = 6", String.class));
+        assertEquals("Ghana", jdbcTemplate.queryForObject("select username from User where id = 6", String.class));
+        assertEquals("Hector", jdbcTemplate.queryForObject("select password from User where id = 6", String.class));
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from Address inner join User on User.addressId = Address.id where User.id = 6", Integer.class));
+    }
+
+    @Test
+    void createUserMissingAddress1() throws URISyntaxException {
+        final Address address = new Address();
+        address.setAddress1(null);
+        address.setAddress2("Apt. 43");
+        address.setCity("Washington");
+        address.setState("District of Columbia");
+        address.setPostal("20500");
+        final User user = new User();
+        user.setId(7L);
+        user.setFirstName("Indigo");
+        user.setLastName("Jester");
+        user.setUsername("Kappa");
+        user.setPassword("Lima");
+        user.setAddress(address);
+        final URI uri = new URI("http", null, "localhost", port, "/v1/users", null, null);
+        final ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<User>(user), String.class);
+        
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 7", Integer.class));
+    }
+
+    @Test
+    void createUserMissingCity() throws URISyntaxException {
+        final Address address = new Address();
+        address.setAddress1("1600 Pennsylvania Ave.");
+        address.setAddress2("Apt. 43");
+        address.setCity(null);
+        address.setState("District of Columbia");
+        address.setPostal("20500");
+        final User user = new User();
+        user.setId(7L);
+        user.setFirstName("Indigo");
+        user.setLastName("Jester");
+        user.setUsername("Kappa");
+        user.setPassword("Lima");
+        user.setAddress(address);
+        final URI uri = new URI("http", null, "localhost", port, "/v1/users", null, null);
+        final ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<User>(user), String.class);
+        
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 7", Integer.class));
+    }
+
+    @Test
+    void createUserMissingState() throws URISyntaxException {
+        final Address address = new Address();
+        address.setAddress1("1600 Pennsylvania Ave.");
+        address.setAddress2("Apt. 43");
+        address.setCity("Washington");
+        address.setState(null);
+        address.setPostal("20500");
+        final User user = new User();
+        user.setId(7L);
+        user.setFirstName("Indigo");
+        user.setLastName("Jester");
+        user.setUsername("Kappa");
+        user.setPassword("Lima");
+        user.setAddress(address);
+        final URI uri = new URI("http", null, "localhost", port, "/v1/users", null, null);
+        final ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<User>(user), String.class);
+        
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 7", Integer.class));
+    }
+
+    @Test
+    void createUserMissingPostal() throws URISyntaxException {
+        final Address address = new Address();
+        address.setAddress1("1600 Pennsylvania Ave.");
+        address.setAddress2("Apt. 43");
+        address.setCity("Washington");
+        address.setState("District of Columbia");
+        address.setPostal(null);
+        final User user = new User();
+        user.setId(7L);
+        user.setFirstName("Indigo");
+        user.setLastName("Jester");
+        user.setUsername("Kappa");
+        user.setPassword("Lima");
+        user.setAddress(address);
+        final URI uri = new URI("http", null, "localhost", port, "/v1/users", null, null);
+        final ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<User>(user), String.class);
+        
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 7", Integer.class));
     }
 
 }

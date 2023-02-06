@@ -7,8 +7,11 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import javax.sql.DataSource;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import com.midwesttape.project.challengeapplication.model.Address;
 import com.midwesttape.project.challengeapplication.model.User;
@@ -18,6 +21,7 @@ import com.midwesttape.project.challengeapplication.model.UserNotFoundException;
  * Data service for user information.
  */
 @Service
+@Validated
 public class UserService {
 
     private final DataSource dataSource;
@@ -39,7 +43,9 @@ public class UserService {
      * @throws UserNotFoundException if no data is found for the given ID
      * @throws SQLException if there was a problem querying the database
      */
-	public User queryUser(final Long userId) throws UserNotFoundException, SQLException {
+    @NotNull
+    @Valid
+	public User queryUser(@NotNull final Long userId) throws UserNotFoundException, SQLException {
 	    try (final Connection connection = dataSource.getConnection();
 	            final PreparedStatement userQuery = connection.prepareStatement("select firstName, lastName, username, password, addressId from User where id = ?");) {
 	        userQuery.setLong(1, userId);
@@ -89,7 +95,7 @@ public class UserService {
 	 * @return {@code true} if the user was created, {@code false} if the user was updated
 	 * @throws SQLException if there was a problem communicating with the database
 	 */
-	public boolean setUser(final User user) throws SQLException {
+	public boolean setUser(@NotNull @Valid final User user) throws SQLException {
 	    final boolean createdUser;
 	    try (final Connection connection = dataSource.getConnection();
 	            final PreparedStatement addressIdQuery = connection.prepareStatement("select addressId from User where id = ?");) {
@@ -177,6 +183,8 @@ public class UserService {
      */
     private void createUserRow(final Connection connection, final User user, final Long desiredAddressId)
             throws SQLException {
+        assert connection != null;
+        assert user != null;
         try (final PreparedStatement insertUserStatement = connection.prepareStatement("insert into User (id, firstName, lastName, username, password, addressId) values (?, ?, ?, ?, ?, ?)");) {
             insertUserStatement.setLong(1, user.getId());
             insertUserStatement.setString(2, user.getFirstName());
@@ -203,6 +211,8 @@ public class UserService {
      */
     private void updateUserRow(final Connection connection, final User user, final Long desiredAddressId)
             throws SQLException {
+        assert connection != null;
+        assert user != null;
         try (final PreparedStatement updateUserStatement = connection.prepareStatement("update User set firstName = ?, lastName = ?, username = ?, password = ?, addressId = ? where id = ?");) {
             updateUserStatement.setString(1, user.getFirstName());
             updateUserStatement.setString(2, user.getLastName());
@@ -229,6 +239,8 @@ public class UserService {
      */
     private void updateAddressRow(final Connection connection, final long addressId, final Address address)
             throws SQLException {
+        assert connection != null;
+        assert address != null;
         try (final PreparedStatement updateAddressStatement = connection.prepareStatement("update Address set address1 = ?, address2 = ?, city = ?, state = ?, postal = ? where id = ?");) {
             updateAddressStatement.setString(1, address.getAddress1());
             updateAddressStatement.setString(2, address.getAddress2());
@@ -250,6 +262,8 @@ public class UserService {
 	 * @throws SQLException if there was a problem communicating with the database
 	 */
     private long createAddressRow(final Connection connection, final Address address) throws SQLException {
+        assert connection != null;
+        assert address != null;
         try (final PreparedStatement insertAddressStatement = connection.prepareStatement("insert into Address (address1, address2, city, state, postal) values (?, ?, ?, ?, ?)", new String[] {"id"});) {
             insertAddressStatement.setString(1, address.getAddress1());
             insertAddressStatement.setString(2, address.getAddress2());

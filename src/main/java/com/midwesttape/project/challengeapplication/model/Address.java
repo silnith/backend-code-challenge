@@ -2,6 +2,8 @@ package com.midwesttape.project.challengeapplication.model;
 
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * An address for a user.
  * 
@@ -27,6 +29,7 @@ public class Address {
      * 
      * @return the first line of the address
      */
+    @NotNull
     public String getAddress1() {
         return address1;
     }
@@ -37,7 +40,7 @@ public class Address {
      * @param address1 the first line of the address to set
      * @throws IllegalArgumentException if the input is null
      */
-    public void setAddress1(final String address1) {
+    public void setAddress1(@NotNull final String address1) {
         this.address1 = address1;
     }
 
@@ -64,6 +67,7 @@ public class Address {
      * 
      * @return the city
      */
+    @NotNull
     public String getCity() {
         return city;
     }
@@ -74,7 +78,7 @@ public class Address {
      * @param city the city to set
      * @throws IllegalArgumentException if the city is null
      */
-    public void setCity(final String city) {
+    public void setCity(@NotNull final String city) {
         this.city = city;
     }
 
@@ -83,6 +87,7 @@ public class Address {
      * 
      * @return the state
      */
+    @NotNull
     public String getState() {
         return state;
     }
@@ -92,7 +97,7 @@ public class Address {
      * 
      * @param state the state to set
      */
-    public void setState(final String state) {
+    public void setState(@NotNull final String state) {
         this.state = state;
     }
 
@@ -101,6 +106,7 @@ public class Address {
      * 
      * @return the postal code
      */
+    @NotNull
     public String getPostal() {
         return postal;
     }
@@ -110,7 +116,7 @@ public class Address {
      * 
      * @param postal the postal code to set
      */
-    public void setPostal(final String postal) {
+    public void setPostal(@NotNull final String postal) {
         this.postal = postal;
     }
 
