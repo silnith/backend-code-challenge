@@ -106,15 +106,15 @@ class UserControllerTest {
         assertEquals("/v1/users/3", response.getHeaders().getLocation().getRawPath());
         
         // TODO: There has got to be a better way to do this.  Go find it.
-        assertEquals("Anna", jdbcTemplate.queryForObject("select firstName from User where id = 3", String.class));
-        assertEquals("Gotta", jdbcTemplate.queryForObject("select lastName from User where id = 3", String.class));
-        assertEquals("AnnaGotta", jdbcTemplate.queryForObject("select username from User where id = 3", String.class));
-        assertEquals("Password345", jdbcTemplate.queryForObject("select password from User where id = 3", String.class));
-        assertEquals("1590 Pennsylvania Ave.", jdbcTemplate.queryForObject("select Address.address1 from Address inner join User on User.addressId = Address.id where User.id = 3", String.class));
-        assertEquals("Apt. 43", jdbcTemplate.queryForObject("select Address.address2 from Address inner join User on User.addressId = Address.id where User.id = 3", String.class));
-        assertEquals("Washington", jdbcTemplate.queryForObject("select Address.city from Address inner join User on User.addressId = Address.id where User.id = 3", String.class));
-        assertEquals("District of Columbia", jdbcTemplate.queryForObject("select Address.state from Address inner join User on User.addressId = Address.id where User.id = 3", String.class));
-        assertEquals("20500", jdbcTemplate.queryForObject("select Address.postal from Address inner join User on User.addressId = Address.id where User.id = 3", String.class));
+        assertEquals("Anna", jdbcTemplate.queryForObject("select \"firstName\" from \"User\" where \"id\" = 3", String.class));
+        assertEquals("Gotta", jdbcTemplate.queryForObject("select \"lastName\" from \"User\" where \"id\" = 3", String.class));
+        assertEquals("AnnaGotta", jdbcTemplate.queryForObject("select \"username\" from \"User\" where \"id\" = 3", String.class));
+        assertEquals("Password345", jdbcTemplate.queryForObject("select \"password\" from \"User\" where \"id\" = 3", String.class));
+        assertEquals("1590 Pennsylvania Ave.", jdbcTemplate.queryForObject("select \"Address\".\"address1\" from \"Address\" inner join \"User\" on \"User\".\"addressId\" = \"Address\".\"id\" where \"User\".\"id\" = 3", String.class));
+        assertEquals("Apt. 43", jdbcTemplate.queryForObject("select \"Address\".\"address2\" from \"Address\" inner join \"User\" on \"User\".\"addressId\" = \"Address\".\"id\" where \"User\".\"id\" = 3", String.class));
+        assertEquals("Washington", jdbcTemplate.queryForObject("select \"Address\".\"city\" from \"Address\" inner join \"User\" on \"User\".\"addressId\" = \"Address\".\"id\" where \"User\".\"id\" = 3", String.class));
+        assertEquals("District of Columbia", jdbcTemplate.queryForObject("select \"Address\".\"state\" from \"Address\" inner join \"User\" on \"User\".\"addressId\" = \"Address\".\"id\" where \"User\".\"id\" = 3", String.class));
+        assertEquals("20500", jdbcTemplate.queryForObject("select \"Address\".\"postal\" from \"Address\" inner join \"User\" on \"User\".\"addressId\" = \"Address\".\"id\" where \"User\".\"id\" = 3", String.class));
     }
 
     @Test
@@ -149,15 +149,15 @@ class UserControllerTest {
         
         assertEquals(HttpStatus.NO_CONTENT, updatedResponse.getStatusCode());
         
-        assertEquals("Bradley", jdbcTemplate.queryForObject("select firstName from User where id = 4", String.class));
-        assertEquals("APC", jdbcTemplate.queryForObject("select lastName from User where id = 4", String.class));
-        assertEquals("Bob", jdbcTemplate.queryForObject("select username from User where id = 4", String.class));
-        assertEquals("Nope", jdbcTemplate.queryForObject("select password from User where id = 4", String.class));
-        assertEquals("Nowhere", jdbcTemplate.queryForObject("select Address.address1 from Address inner join User on User.addressId = Address.id where User.id = 4", String.class));
-        assertEquals(null, jdbcTemplate.queryForObject("select Address.address2 from Address inner join User on User.addressId = Address.id where User.id = 4", String.class));
-        assertEquals("Seattle", jdbcTemplate.queryForObject("select Address.city from Address inner join User on User.addressId = Address.id where User.id = 4", String.class));
-        assertEquals("Washington", jdbcTemplate.queryForObject("select Address.state from Address inner join User on User.addressId = Address.id where User.id = 4", String.class));
-        assertEquals("98101", jdbcTemplate.queryForObject("select Address.postal from Address inner join User on User.addressId = Address.id where User.id = 4", String.class));
+        assertEquals("Bradley", jdbcTemplate.queryForObject("select \"firstName\" from \"User\" where \"id\" = 4", String.class));
+        assertEquals("APC", jdbcTemplate.queryForObject("select \"lastName\" from \"User\" where \"id\" = 4", String.class));
+        assertEquals("Bob", jdbcTemplate.queryForObject("select \"username\" from \"User\" where \"id\" = 4", String.class));
+        assertEquals("Nope", jdbcTemplate.queryForObject("select \"password\" from \"User\" where \"id\" = 4", String.class));
+        assertEquals("Nowhere", jdbcTemplate.queryForObject("select \"Address\".\"address1\" from \"Address\" inner join \"User\" on \"User\".\"addressId\" = \"Address\".\"id\" where \"User\".\"id\" = 4", String.class));
+        assertEquals(null, jdbcTemplate.queryForObject("select \"Address\".\"address2\" from \"Address\" inner join \"User\" on \"User\".\"addressId\" = \"Address\".\"id\" where \"User\".\"id\" = 4", String.class));
+        assertEquals("Seattle", jdbcTemplate.queryForObject("select \"Address\".\"city\" from \"Address\" inner join \"User\" on \"User\".\"addressId\" = \"Address\".\"id\" where \"User\".\"id\" = 4", String.class));
+        assertEquals("Washington", jdbcTemplate.queryForObject("select \"Address\".\"state\" from \"Address\" inner join \"User\" on \"User\".\"addressId\" = \"Address\".\"id\" where \"User\".\"id\" = 4", String.class));
+        assertEquals("98101", jdbcTemplate.queryForObject("select \"Address\".\"postal\" from \"Address\" inner join \"User\" on \"User\".\"addressId\" = \"Address\".\"id\" where \"User\".\"id\" = 4", String.class));
     }
 
     @Test
@@ -180,7 +180,7 @@ class UserControllerTest {
         
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         
-        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where username = 'Charlie'", Integer.class));
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from \"User\" where \"username\" = 'Charlie'", Integer.class));
     }
     
     @Test
@@ -203,7 +203,7 @@ class UserControllerTest {
         
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         
-        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 5", Integer.class));
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from \"User\" where \"id\" = 5", Integer.class));
     }
     
     @Test
@@ -226,7 +226,7 @@ class UserControllerTest {
         
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         
-        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 5", Integer.class));
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from \"User\" where \"id\" = 5", Integer.class));
     }
     
     @Test
@@ -249,7 +249,7 @@ class UserControllerTest {
         
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         
-        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 5", Integer.class));
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from \"User\" where \"id\" = 5", Integer.class));
     }
     
     @Test
@@ -272,7 +272,7 @@ class UserControllerTest {
         
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         
-        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 5", Integer.class));
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from \"User\" where \"id\" = 5", Integer.class));
     }
     
     @Test
@@ -290,11 +290,11 @@ class UserControllerTest {
         
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         
-        assertEquals("Echo", jdbcTemplate.queryForObject("select firstName from User where id = 6", String.class));
-        assertEquals("Foxtrot", jdbcTemplate.queryForObject("select lastName from User where id = 6", String.class));
-        assertEquals("Ghana", jdbcTemplate.queryForObject("select username from User where id = 6", String.class));
-        assertEquals("Hector", jdbcTemplate.queryForObject("select password from User where id = 6", String.class));
-        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from Address inner join User on User.addressId = Address.id where User.id = 6", Integer.class));
+        assertEquals("Echo", jdbcTemplate.queryForObject("select \"firstName\" from \"User\" where \"id\" = 6", String.class));
+        assertEquals("Foxtrot", jdbcTemplate.queryForObject("select \"lastName\" from \"User\" where \"id\" = 6", String.class));
+        assertEquals("Ghana", jdbcTemplate.queryForObject("select \"username\" from \"User\" where \"id\" = 6", String.class));
+        assertEquals("Hector", jdbcTemplate.queryForObject("select \"password\" from \"User\" where \"id\" = 6", String.class));
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from \"Address\" inner join \"User\" on \"User\".\"addressId\" = \"Address\".\"id\" where \"User\".\"id\" = 6", Integer.class));
     }
 
     @Test
@@ -317,7 +317,7 @@ class UserControllerTest {
         
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         
-        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 7", Integer.class));
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from \"User\" where \"id\" = 7", Integer.class));
     }
     
     // TODO: unit test for missing address2, which is a valid request
@@ -342,7 +342,7 @@ class UserControllerTest {
         
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         
-        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 7", Integer.class));
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from \"User\" where \"id\" = 7", Integer.class));
     }
 
     @Test
@@ -365,7 +365,7 @@ class UserControllerTest {
         
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         
-        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 7", Integer.class));
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from \"User\" where \"id\" = 7", Integer.class));
     }
 
     @Test
@@ -388,7 +388,7 @@ class UserControllerTest {
         
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         
-        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from User where id = 7", Integer.class));
+        assertEquals(0, jdbcTemplate.queryForObject("select count(*) from \"User\" where \"id\" = 7", Integer.class));
     }
 
 }

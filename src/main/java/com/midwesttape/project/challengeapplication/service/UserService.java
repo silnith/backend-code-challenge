@@ -47,7 +47,7 @@ public class UserService {
     @Valid
 	public User queryUser(@NotNull final Long userId) throws UserNotFoundException, SQLException {
 	    try (final Connection connection = dataSource.getConnection();
-	            final PreparedStatement userQuery = connection.prepareStatement("select firstName, lastName, username, password, addressId from User where id = ?");) {
+	            final PreparedStatement userQuery = connection.prepareStatement("select \"firstName\", \"lastName\", \"username\", \"password\", \"addressId\" from \"User\" where \"id\" = ?");) {
 	        userQuery.setLong(1, userId);
             
             try (final ResultSet userResultSet = userQuery.executeQuery();) {
@@ -63,7 +63,7 @@ public class UserService {
                     if (userResultSet.wasNull()) {
                         // No address to query.
                     } else {
-                        try (final PreparedStatement addressQuery = connection.prepareStatement("select address1, address2, city, state, postal from Address where id = ?");) {
+                        try (final PreparedStatement addressQuery = connection.prepareStatement("select \"address1\", \"address2\", \"city\", \"state\", \"postal\" from \"Address\" where \"id\" = ?");) {
                             addressQuery.setLong(1, addressId);
 
                             try (final ResultSet addressResultSet = addressQuery.executeQuery();) {
@@ -98,7 +98,7 @@ public class UserService {
 	public boolean setUser(@NotNull @Valid final User user) throws SQLException {
 	    final boolean createdUser;
 	    try (final Connection connection = dataSource.getConnection();
-	            final PreparedStatement addressIdQuery = connection.prepareStatement("select addressId from User where id = ?");) {
+	            final PreparedStatement addressIdQuery = connection.prepareStatement("select \"addressId\" from \"User\" where \"id\" = ?");) {
 	        connection.setAutoCommit(false);
             final Address address = user.getAddress();
 	        
@@ -148,7 +148,7 @@ public class UserService {
 	                
 	                if (deleteAddress) {
 	                    assert previousAddressId != null;
-	                    try (final PreparedStatement deleteAddressStatement = connection.prepareStatement("delete from Address where id = ?");) {
+	                    try (final PreparedStatement deleteAddressStatement = connection.prepareStatement("delete from \"Address\" where \"id\" = ?");) {
 	                        deleteAddressStatement.setLong(1, previousAddressId);
 	                        deleteAddressStatement.executeUpdate();
 	                    }
@@ -185,7 +185,7 @@ public class UserService {
             throws SQLException {
         assert connection != null;
         assert user != null;
-        try (final PreparedStatement insertUserStatement = connection.prepareStatement("insert into User (id, firstName, lastName, username, password, addressId) values (?, ?, ?, ?, ?, ?)");) {
+        try (final PreparedStatement insertUserStatement = connection.prepareStatement("insert into \"User\" (\"id\", \"firstName\", \"lastName\", \"username\", \"password\", \"addressId\") values (?, ?, ?, ?, ?, ?)");) {
             insertUserStatement.setLong(1, user.getId());
             insertUserStatement.setString(2, user.getFirstName());
             insertUserStatement.setString(3, user.getLastName());
@@ -213,7 +213,7 @@ public class UserService {
             throws SQLException {
         assert connection != null;
         assert user != null;
-        try (final PreparedStatement updateUserStatement = connection.prepareStatement("update User set firstName = ?, lastName = ?, username = ?, password = ?, addressId = ? where id = ?");) {
+        try (final PreparedStatement updateUserStatement = connection.prepareStatement("update \"User\" set \"firstName\" = ?, \"lastName\" = ?, \"username\" = ?, \"password\" = ?, \"addressId\" = ? where \"id\" = ?");) {
             updateUserStatement.setString(1, user.getFirstName());
             updateUserStatement.setString(2, user.getLastName());
             updateUserStatement.setString(3, user.getUsername());
@@ -241,7 +241,7 @@ public class UserService {
             throws SQLException {
         assert connection != null;
         assert address != null;
-        try (final PreparedStatement updateAddressStatement = connection.prepareStatement("update Address set address1 = ?, address2 = ?, city = ?, state = ?, postal = ? where id = ?");) {
+        try (final PreparedStatement updateAddressStatement = connection.prepareStatement("update \"Address\" set \"address1\" = ?, \"address2\" = ?, \"city\" = ?, \"state\" = ?, \"postal\" = ? where \"id\" = ?");) {
             updateAddressStatement.setString(1, address.getAddress1());
             updateAddressStatement.setString(2, address.getAddress2());
             updateAddressStatement.setString(3, address.getCity());
@@ -264,7 +264,7 @@ public class UserService {
     private long createAddressRow(final Connection connection, final Address address) throws SQLException {
         assert connection != null;
         assert address != null;
-        try (final PreparedStatement insertAddressStatement = connection.prepareStatement("insert into Address (address1, address2, city, state, postal) values (?, ?, ?, ?, ?)", new String[] {"id"});) {
+        try (final PreparedStatement insertAddressStatement = connection.prepareStatement("insert into \"Address\" (\"address1\", \"address2\", \"city\", \"state\", \"postal\") values (?, ?, ?, ?, ?)", new String[] {"id"});) {
             insertAddressStatement.setString(1, address.getAddress1());
             insertAddressStatement.setString(2, address.getAddress2());
             insertAddressStatement.setString(3, address.getCity());
