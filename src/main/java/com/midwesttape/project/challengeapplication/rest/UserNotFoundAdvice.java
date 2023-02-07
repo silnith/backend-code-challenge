@@ -23,7 +23,7 @@ public class UserNotFoundAdvice {
      */
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public String userNotFound(final UserNotFoundException ex) {
+    public String translateUserNotFound(final UserNotFoundException ex) {
         return String.format(Locale.US, "User ID not found: %s", ex.getUserId());
     }
 
