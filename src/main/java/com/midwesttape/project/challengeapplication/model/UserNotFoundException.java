@@ -5,6 +5,13 @@ package com.midwesttape.project.challengeapplication.model;
  */
 public class UserNotFoundException extends Exception {
     
+    /**
+     * Initial version.
+     * 
+     * <p>This is not intended to be serialized, but technically it could be.
+     */
+    private static final long serialVersionUID = 1L;
+    
     private final Long userId;
 
     /**
