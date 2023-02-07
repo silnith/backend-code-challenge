@@ -21,7 +21,7 @@ public class SqlConnectionAdvice {
      */
     @ExceptionHandler(SQLException.class)
     @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE)
-    public String userNotFound(final SQLException ex) {
+    public String translateDatabaseException(final SQLException ex) {
         return ex.getLocalizedMessage();
     }
 
